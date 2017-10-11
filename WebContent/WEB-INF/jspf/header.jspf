@@ -1,0 +1,95 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+     <%@page import="javax.servlet.jsp.jstl.core.Config"%>
+    <%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    
+    <div class ="header">
+    <div class="logo">
+   
+    </div>
+    	<form action="changeLocale.jsp" method="post">
+		<fmt:message key="settings_jsp.label.set_locale"/>:
+		<select name="locale">
+			<c:forEach items="${applicationScope.locales}" var="locale">
+				<c:set var="selected" value="${locale.key == currentLocale ? 'selected' : '' }"/>
+				<option value="${locale.key}" ${selected}>${locale.value}</option>
+			</c:forEach>
+		</select>
+		<input type="submit" value="<fmt:message key='settings_jsp.form.submit_save_locale'/>">
+		
+	</form>
+    <c:if test="${empty user}">
+    <div class ="autentification">
+    <table>
+    
+    <tr>
+    <td><input type="button"  class="show" value=<fmt:message key="menu_sign_up"/> /></td><td><a href="controller?command=registration" class="registration"><fmt:message key="menu_registration"/></a></td>
+    </tr>
+    </table>
+
+    <div class="login_form">
+    
+    <form action="controller?command=login_command" method="post">
+    <table>
+    <tr>
+    
+
+    <td><fmt:message key="login"/>&nbsp</td><td><input type="text" name="login"/></td>
+    </tr>
+    <tr>
+    <td><fmt:message key="password"/> &nbsp</td><td><input type="password" name="password"/></td>
+    </tr>
+    <tr>
+    <td class="mError">Message Error!</td>
+    </tr>
+    </table>
+    <input type="submit" value="<fmt:message key="button_sign"/>" class="login_button"/>
+    </form>
+    
+    </div>
+   
+    </div>
+    </c:if>
+     <c:if test="${not empty user}">
+    
+     <p class="cabinet_link" ><fmt:message key="personal_cabinet"/></p>
+    <c:if test="${user.roleid==0 }">
+    <img class="user_icon" alt="user_icon" src="images/administrator.png">
+    <div class="personal_cabinet_menu">
+    <ul>
+    <li><a href="controller?command=user_info&type=admin_info"><fmt:message key="link_info"/></a></li>
+    <li><a href="controller?command=course_list&type=courses"><fmt:message key="navigation_jspf.courses"/></a></li>
+    <li><a href="controller?command=students_list&type=students"><fmt:message key="link_students"/></a></li>
+    <li><a href="controller?command=all_teachers&type=teachers&cat=teachers_all"><fmt:message key="navigation_jspf.teachers"/></a></li>
+    <li><a href="controller?command=logout_command" ><fmt:message key="link_log_out"/></a></li>
+    </ul>
+    </div>
+    </c:if>
+    <c:if test="${user.roleid==1 }">
+    <img class="user_icon" alt="user_icon" src="images/teacher.png">
+    <div class="personal_cabinet_menu">
+    <ul>
+    <li><a href="controller?command=user_info&type=info"><fmt:message key="link_info"/></a></li>
+    <li><a href="controller?command=teacher_courses"><fmt:message key="navigation_jspf.courses"/></a></li>
+    <li><a href="controller?command=logout_command" ><fmt:message key="link_log_out"/></a></li>
+    </ul>
+    </div>
+    </c:if>
+     <c:if test="${user.roleid==2 }">
+    <img class="user_icon" alt="user_icon" src="images/student.png">
+    <div class="personal_cabinet_menu">
+    <ul>
+    <li><a href="controller?command=user_info&type=info"><fmt:message key="link_info"/></a></li>
+    <li><a href="controller?command=students_courses_kind"><fmt:message key="navigation_jspf.courses"/></a></li>
+ 
+    <li><a href="controller?command=logout_command" ><fmt:message key="link_log_out"/></a></li>
+    </ul>
+    </div>
+    </c:if>
+ </c:if>
+    </div>
+    
+

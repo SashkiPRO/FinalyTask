@@ -1,0 +1,404 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%><div class="context">
+<%@ page import="ua.nure.botsula.st4.entity.CourseState"%>
+
+<a class="main_page_link" href="controller?command=main_page""><fmt:message key="navigation_jspf.home"/></a>
+			<div class="admin_menu">
+				<ul>
+
+
+
+					<c:choose>
+					<c:when test="${param.type=='admin_info'}">
+					<li><a class="active" href="controller?command=user_info&type=admin_info"
+								type="admin" id="admin_link"><fmt:message key="link_info"/></a></li>
+							<li><a href="controller?command=course_list&type=courses"
+								type="courses" id="course_link"><fmt:message key="navigation_jspf.courses"/></a></li>
+							<li><a href="controller?command=students_list&type=students"
+					 type="student"><fmt:message key="students"/></a></li>
+							<li><a href="controller?command=all_teachers&type=teachers&cat=teachers_all"
+								type="teachers"><fmt:message key="navigation_jspf.teachers"/></a></li>
+								
+							<div class="info">
+<h5>User info</h5>
+<table class="user_info">
+<tr><td><h3>Name</h3></td><td>${sessionScope.user.fname }</td></tr>
+<tr><td><h3>Last name</h3></td><td>${sessionScope.user.lname }</td></tr>
+<tr><td><h3>Login</h3></td><td>${sessionScope.user.login }</td></tr>
+<tr><td><h3>Email</h3></td><td>${sessionScope.user.email }</td></tr>
+</table>
+
+</div>
+						</c:when>
+						<c:when test="${param.type=='courses'||type=='courses'}">
+						<li><a  href="controller?command=user_info&type=admin_info"
+								type="admin" id="admin_link"><fmt:message key="link_info"/></a></li>
+							<li><a href="controller?command=course_list&type=courses"
+								class="active" type="courses" id="course_link"><fmt:message key="navigation_jspf.courses"/></a></li>
+							<li><a href="controller?command=students_list&type=students"
+								type="student"><fmt:message key="students"/></a></li>
+							<li><a href="controller?command=all_teachers&type=teachers&cat=teachers_all"
+								type="teachers"><fmt:message key="navigation_jspf.teachers"/></a></li>
+								
+							<div class="info">
+							
+						<c:if test="${edit==false||empty edit}">
+							<div class="add_course">
+							
+							<form action="controller?command=add_course" method="post" id="add_course_form">
+							<table class="add_course_title">
+							
+							<tr><td><fmt:message key="course_name"/></td><td><fmt:message key="course_theme"/></td><td><fmt:message key="course_start_date"/></td><td><fmt:message key="course_finish_date"/></td></tr>
+							</table>
+							<div class="add_input"><input type="text" name="name"></div>	<div class="add_input"><input type="text" name="theme"></div>	<div class="add_input"><input type="date" name="start_date"></div><div class="add_input"><input type="date" name="finish_date"></div>	
+							
+								
+				<table style="width: 100%">			<tr><td><input id="add_course_button" type="submit" value="<fmt:message key="add_button"/>"><td></tr>
+							
+						</table>
+							
+								
+								
+													
+							
+							
+							</form>
+							
+							</div>
+							</c:if>
+								<c:if test="${edit==false||empty edit}"><table id="list_courses">
+									<tr id="courses_list_title">
+										<td><fmt:message key="course_name"/></td>
+										<td><fmt:message key="course_theme"/></td>
+									
+										<td><fmt:message key="course_start_date"/></td>
+										<td><fmt:message key="course_finish_date"/></td>
+										<td><fmt:message key="status_name"/></td>
+										<td><fmt:message key="number_of_students"/></td>
+										
+
+
+
+
+
+									</tr>
+									<c:forEach items="${course_list}" var="item">
+										<tr>
+											<td>${item.name }</td>
+											<td>${item.theme }</td>
+											<td>${item.startDate }</td>
+											<td>${item.finishDate }</td>
+											<td>${CourseState.getCourseState(item.state).getName()}</td>
+											<td>${item.countStudent }</td>
+										
+										</tr>
+										<tr>
+
+											<td><a class="manage_button" href="controller?command=edit_course&type=courses&id=${item.id}"><fmt:message key="manage_button.edit"/></a>
+											<td><a class="manage_button" href="controller?command=delete_course&id=${item.id}"><fmt:message key="manage_button_delete"/></a></td>
+											
+
+										</tr>
+									</c:forEach>
+								</table>
+								</c:if>
+								<c:if test="${edit==true}">
+								<div class="edit_course">
+								<h1><fmt:message key="change_course"/> ${course_ed.name}</h1>
+								
+								<form action="controller?command=update_course&id=${course_ed.id }" method="post">
+							<table>
+							
+								
+								
+									
+									
+										
+									
+								<tr>
+										<td><fmt:message key="course_name"/></td>
+											<td><fmt:message key="course_theme"/></td>
+									
+										<td><fmt:message key="course_start_date"/></td>
+									<td><fmt:message key="course_finish_date"/></td>
+									
+									</tr>
+									
+							<tr><td>	<input type="text" name="course_name" value="${course_ed.name }"></td>
+								<td><input type="text" name="theme" value="${course_ed.theme }"></td>
+								<td><input type="date" name="start_date" value="${course_ed.startDate }"></td>
+								<td><input type="date" name="finish_date" value="${course_ed.finishDate }"></td>
+								<td></td></tr>
+								</table>
+								<input id="edit_course_button" type="submit" value="<fmt:message key="manage_button.save"/>">
+								</form>
+								
+								</div>
+								</c:if>
+								
+							</div>
+						</c:when>
+					
+						<c:when test="${param.type=='students'||type=='students'}">
+						<li><a  href="controller?command=user_info&type=admin_info"
+								type="admin" id="admin_link"><fmt:message key="link_info"/></a></li>
+							<li><a href="controller?command=course_list&type=courses"
+								type="courses" id="course_link"><fmt:message key="navigation_jspf.courses"/></a></li>
+							<li><a href="controller?command=students_list&type=students"
+								class="active" type="student"><fmt:message key="students"/></a></li>
+							<li><a href="controller?command=all_teachers&type=teachers&cat=teachers_all"
+								type="teachers"><fmt:message key="navigation_jspf.teachers"/></a></li>
+									
+							<div class="info">
+							<table class="students_list">
+							<tr>
+							<td><fmt:message key="name"/></td><td><fmt:message key="last_name"/></td><td>E-mail</td><td><fmt:message key="doing"/></td>
+							</tr>
+		<c:forEach items="${students}" var="item">
+		<tr>
+		
+	
+	
+		<td>${item.fname}</td><td>	${item.lname}</td><td>	${item.email}</td><td><a class="manage_button" href="controller?command=block_student&id=${item.id }"><fmt:message key="block_do"/></a></td>
+		</tr>
+		</c:forEach>
+		<c:if test="${ not empty bunned}">
+		
+		<tr> <td width="184" colspan="3" valign="middle"><span style="margin-left: 40%">Banned Students</span></td></tr>
+		<c:forEach items="${bunned}" var="item">
+		<tr>
+		
+	
+	
+		<td>${item.fname}</td><td>	${item.lname}</td><td>	${item.email}</td><td><a class="manage_button" href="controller?command=unblock_student&id=${item.id }"><fmt:message key="block_un"/></a></td>
+		</tr>
+		</c:forEach>
+		</c:if>
+		</table>
+</div>
+						</c:when>
+					
+						<c:when test="${param.type=='teachers'||type=='teachers'}">
+						<li><a  href="controller?command=user_info&type=admin_info"
+								type="admin" id="admin_link"><fmt:message key="link_info"/></a></li>
+							<li><a href="controller?command=course_list&type=courses"
+								type="courses" id="course_link"><fmt:message key="navigation_jspf.courses"/></a></li>
+							<li><a href="controller?command=students_list&type=students"
+								type="student"><fmt:message key="students"/></a></li>
+							<li><a href="controller?command=all_teachers&type=teachers&cat=teachers_all"
+								class="active" type="teachers"><fmt:message key="navigation_jspf.teachers"/></a></li>
+							<div class="info">
+							<div class="teacher_info">
+							<ul id="teacher_hav">
+							<c:choose>
+							<c:when test="${param.cat=='teachers_all'||cat=='teachers_all' }">
+						<li><a  class ="active" href="controller?command=all_teachers" cat="teachers_all"><fmt:message key="all_teachers"/></a><a href="controller?command=register_teacher_menu" class="add_teacher">Add teacher</a></li>
+						<li><a  href="controller?command=teacher_list&type=teachers&cat=teachers_course" cat="teachers_course"><fmt:message key="teachers_course"/></a></li>
+					<c:if test="${edit==false||empty edit&&empty teacher_reg}">
+						<table id="teacher_list">
+						<tr id="teacher_table_title">
+						<td><fmt:message key="name"/> </td><td><fmt:message key="last_name"/> </td><td>Email </td><td><fmt:message key="manage_button.edit"/></td><td><fmt:message key="manage_button_delete"/></td>
+						</tr>
+	<c:forEach items="${teacher_list}" var="item">
+	<tr>
+	<td>${item.fname}</td><td>${item.lname}</td><td>${item.email}</td><td><a class="manage_button" href="controller?command=edit_teacher_menu&type=teachers&cat=teachers_all&id=${item.id }"><fmt:message key="manage_button.edit"/></a></td><td><a class="manage_button" href="controller?command=delete_teacher&id=${item.id }"><fmt:message key="manage_button_delete"/></a></td>
+	</tr>
+	</c:forEach>					
+						</table>
+								
+						</c:if>
+						<c:if test="${teacher_reg==true }">
+					<div class="teacher_registr">
+				<form action="controller?command=add_teacher" id="registr_teacher" method="post">
+					<table id="teacher_form">
+						<tr>
+							<td><fmt:message key="name"/></td>
+							<td><span>*</span></td>
+							<td><input type="text" name="fname" /></td>
+						</tr>
+						<tr>
+							<td><fmt:message key="last_name"/></td>
+							<td><span>*</span></td>
+							<td><input type="text" name="lname" /></td>
+						</tr>
+						<tr>
+							<td><fmt:message key="login"/></td>
+							<td><span>*</span></td>
+							<td><input type="text" name="login" /></td>
+						</tr>
+						<tr>
+							<td><fmt:message key="password"/></td>
+							<td><span>*</span></td>
+							<td><input type="password" name="password" id="password" /></td>
+						</tr>
+						<tr>
+							<td><fmt:message key="confirm"/></td>
+							<td><span>*</span></td>
+							<td><input type="password" name="cpassword" /></td>
+						</tr>
+						<tr>
+							<td>Email</td>
+							<td><span>*</span></td>
+							<td><input type="text" name="email" /></td>
+						</tr>
+					</table>
+					<input  type="submit" value="<fmt:message key="send"/>" id="button"><a class="cancel_button" href="controller?command=all_teachers"><fmt:message key="manage_button.cancel"/></a>
+				</form>
+				
+
+
+			</div>
+						</c:if>
+						
+				
+						<c:if test="${edit==true}">
+								<div class="edit_teacher">
+								<h1>Change teacher ${teacher_ed.fname}</h1>
+								
+								<form action="controller?command=update_teacher&id=${teacher_ed.id }" method="post">
+							<table>
+							
+								
+								<tr>
+										<td>First name</td>
+										<td>Last name</td>
+									
+										<td>Email</td>
+									<td>login</td>
+									<td>Password</td>
+									</tr>
+									
+							<tr><td>	<input type="text" name="first_name" value="${teacher_ed.fname }"></td>
+								<td><input type="text" name="last_name" value="${teacher_ed.lname }"></td>
+								<td><input type="text" name="email" value="${teacher_ed.email }"></td>
+								<td><input type="text" name="login" value="${teacher_ed.login }"></td>
+								<td><input type="password" name="password" value="${teacher_ed.password }"></td>
+								<td></td></tr>
+								</table>
+								<input class="manage_button" type="submit" value="Save" style="margin-top: 10px;">
+								</form>
+								
+								</div>
+								</c:if>
+						
+						 
+							</c:when>
+					<c:when test="${param.cat=='teachers_course'||cat=='teachers_course' }">
+					<li><a  href="controller?command=all_teachers" cat="teachers_all"><fmt:message key="all_teachers"/></a></li>
+							<li><a  href="controller?command=teacher_list&type=teachers&cat=teachers_course" cat="teachers_course" class ="active" cat="teachers_course"><fmt:message key="teachers_course"/></a>
+						<c:if test="${edit!=true }">
+						<div class="sign_course">
+						<h1> <fmt:message key="Assign_teacher"/></h1>
+					
+						<form action="controller?command=add_course_to_teacher" method="post" id="">
+						<c:if test="${not empty all_courses }">
+						<ul class="teacher_sign_menu">
+						<li><select name="teacher_id">
+						
+						<c:forEach items="${all_teacher_list}" var="item">
+					
+						<option value="${item.id }">${item.fname} ${ item.lname}</option>
+						</c:forEach>
+						</select></li>
+						<li><select name="course_id">
+					
+						<c:forEach items="${all_courses}" var="item">
+							<option value="${item.id }">${item.name}</option>
+						</c:forEach>
+					
+						</select></li>
+						<li><input class="manage_button" type="submit" value="<fmt:message key="assign_button"/>" style="margin-top: 10px; margin-left: 5px;"></li>
+						</ul>
+						</c:if>
+						<c:if test="${empty all_courses }">
+						<fmt:message key="no_free_course"/>
+						</c:if>
+						</form>
+					
+						</div>
+						</c:if>
+				
+						<table class="teacher_list">
+						<c:if test="${edit ==false|| empty edit }">
+									<tr>
+										<td><fmt:message key="name"/></td>
+										<td>Email</td>
+										<td><fmt:message key="course_name"/></td>
+									</tr>
+									<c:forEach items="${teachers_list}" var="item">
+										<tr>
+											<td>${ item.firstName}${ item.lastName}</td>
+											<td>${item.email}</td>
+											<td>${item.courseName }</td>
+										</tr>
+		<tr>				
+
+											<td><a id="button" href="controller?command=edit_course_request&type=teachers&cat=teachers_course&doing=edit&id=${item.id}&course_id=${item.courseId}"><fmt:message key="manage_button.edit"/></a>
+											<td><a id="button" href="controller?command=delete_teacher_sign&teacher_id=${item.id}&course_id=${item.courseId}"><fmt:message key="manage_button_delete"/></a></td>
+											
+										</tr>
+									</c:forEach>
+									</c:if>
+									<c:if test="${edit==true}">
+								<div>
+								<form action="controller?command=update_teachers_course&course_id=${param.course_id}&teacher_id=${teacher.id}" method="post">
+								<table class="edit_sign">
+								<tr> <td><input type="text" name="first_name" value="${teacher.fname}" disabled="disabled"></td>
+								<td><input type="text" name="last_name" value="${teacher.lname }" disabled="disabled"></td>
+								<td><input type="text" name="mail" value="${teacher.email }" disabled="disabled"></td>
+								<td>	<select name="newcourse_id">
+							<option value="${param.course_id}"  disabled="disabled">${course.name}</option>
+						<c:forEach items="${course_list}" var="item">
+						<option value="${item.id }">${item.name}</option>
+						</c:forEach>
+						</select></td></tr>
+								<tr><td><input id="button" type="submit" value="<fmt:message key="manage_button.save"/>"></td><td>	<a class="cancel_button " href= "controller?command=teacher_list&type=teachers&cat=teachers_course" style="margin-top: 7px;"><fmt:message key="manage_button.cancel"/></a></td></tr>
+								
+								 
+						
+								
+							
+								
+						
+							
+								</table>
+								</form>
+								</div>
+								</c:if>
+								</table>
+						
+						
+							</c:when>
+					
+							<c:otherwise>
+						<li><a class="active" href="controller?command=" cat="teachers_all"><fmt:message key="all_teachers"/></a></li>
+						<li><a href="controller?command=" cat="teachers_course"><fmt:message key="teachers_course"/></a>
+							
+						</li>
+							</c:otherwise>
+						</c:choose>
+							
+							</ul>
+								
+
+</div>
+							</div>
+						</c:when>
+						
+					
+						<c:otherwise>
+						<li><a class="active" href="controller?command=user_info&type=admin_info"
+								type="admin" id="admin_link"><fmt:message key="link_info"/></a></li>
+							<li><a  href="controller?command=course_list&type=courses "
+								type="courses" id="course_link"><fmt:message key="navigation_jspf.courses"/></a></li>
+							<li><a href="controller?command=students_list&type=students"
+								type="student">Students</a></li>
+							<li><a
+								href="controller?command=all_teachers&type=teachers&cat=teachers_all"
+								type="teachers"><fmt:message key="students"/></a></li>
+							
+						</c:otherwise>
+					</c:choose>
+				</ul>
+			</div>
+
+		</div>

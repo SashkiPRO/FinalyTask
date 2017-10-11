@@ -1,0 +1,14 @@
+<taglib>
+  <tlib-version>1.0</tlib-version>
+  <jsp-version>2.0</jsp-version>
+  <short-name>DateTag TLD</short-name>
+  <tag>
+    <name>Date</name>
+    <tag-class>ua.nure.botsula.st4.date.tag.DateTag</tag-class>
+    <body-content>scriptless</body-content>
+    <attribute>
+       <name>message</name>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+</taglib>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Context>
+   
+      
+       
+       
+  
+
+          <Resource name="jdbc/facultet_db"
+  			auth="Container" 
+  			type="javax.sql.DataSource"
+			maxActive="100" maxIdle="30" maxWait="10000"
+			  username="sashki12" password="sashki12"
+			 driverClassName="com.mysql.jdbc.Driver"
+			defaultAutoCommit="false"
+			defaultTransactionIsolation="READ_COMMITTED"
+		      url="jdbc:mysql://localhost/facultet_db"/>
+</Context>

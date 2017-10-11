@@ -1,0 +1,19 @@
+  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+     <%@page import="javax.servlet.jsp.jstl.core.Config"%>
+    <%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<div class="navigation_block">
+<div class="nav">
+<ul>
+<li id="home_link"><a href="index.jsp"><fmt:message key="navigation_jspf.home"/></a></li>
+<li><a href="controller?command=about_courses"><fmt:message key="navigation_jspf.courses"/></a></li>
+<li><a href="controller?command=about_teachers"><fmt:message key="navigation_jspf.teachers"/></a></li>
+<li><a href="#"><fmt:message key="navigation_jspf.contacts"/></a></li>
+</ul>
+</div>
+<div class="search">
+<input type="text" value="<fmt:message key="search.text"/>"/>
+<a href="#" ><img id="button_search" alt="search" src="images/search.png"></a>
+</div>
+</div>
